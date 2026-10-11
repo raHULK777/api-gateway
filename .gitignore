@@ -32,11 +32,6 @@ vendor/
 coverage.html
 coverage.out
 
-# Go workspace
-*.go
-!go.mod
-!go.sum
-
 # OS
 .DS_Store
 Thumbs.db
