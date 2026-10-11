@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: api-gateway
+    env: docker
+    repo: https://github.com/yourusername/api-gateway
+    branch: main
+    plan: free
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: DATABASE_URL
+        fromDatabase:
+          name: api-gateway-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: api-gateway-redis
+          property: connectionString
+      - key: JWT_SECRET
+        sync: false
+      - key: RATE_LIMIT_RPS
+        value: 100
+    healthCheckPath: /health
+    regions:
+      - oregon
+      - frankfurt
+      - singapore
+
+databases:
+  - name: api-gateway-db
+    plan: free
+
+redis:
+  - name: api-gateway-redis
+    plan: free
+    ipAllowList: []
